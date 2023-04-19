@@ -1,32 +1,44 @@
-# Prerequisites
-*.d
+#include <iostream>
+#include <string>
+using namespace std;
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+// Function to check if the input credit card number is valid
+bool isCreditCardValid(const string& cardNumber) {
+    int sum = 0;
+    bool doubleDigit = false;
 
-# Precompiled Headers
-*.gch
-*.pch
+    // Iterate through the credit card number from right to left
+    for (int i = cardNumber.length() - 1; i >= 0; i--) {
+        int digit = cardNumber[i] - '0';
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+        if (doubleDigit) {
+            digit *= 2;
+            if (digit > 9) {
+                digit = digit / 10 + digit % 10;
+            }
+        }
 
-# Fortran module files
-*.mod
-*.smod
+        sum += digit;
+        doubleDigit = !doubleDigit;
+    }
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+    // Check if the sum is divisible by 10
+    return sum % 10 == 0;
+}
 
-# Executables
-*.exe
-*.out
-*.app
+int main() {
+    string cardNumber;
+
+    // Input credit card number
+    cout << "Enter credit card number: ";
+    cin >> cardNumber;
+
+    // Call credit card validator function
+    if (isCreditCardValid(cardNumber)) {
+        cout << "Credit card number is valid." << endl;
+    } else {
+        cout << "Credit card number is invalid." << endl;
+    }
+
+    return 0;
+}
